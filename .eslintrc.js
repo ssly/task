@@ -28,6 +28,8 @@ module.exports = {
     // semi
     'semi': 'off',
     // space-before-function-paren
-    'space-before-function-paren': 'off'
+    'space-before-function-paren': 'off',
+    // comma-dangle
+    'comma-dangle': 'off',
   }
 }

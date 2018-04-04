@@ -17,9 +17,17 @@ function createTaskList(options) {
   });
 }
 
-function updateTaskList(options) {
+function updateTask(options) {
   return new Promise((resolve, reject) => {
     axios.put(`${HOST}/task/manager`, options).then(res => {
+      resolve(res.data);
+    });
+  });
+}
+
+function deleteTask(ids) {
+  return new Promise((resolve, reject) => {
+    axios.delete(`${HOST}/task/manager`, { data: ids }).then(res => {
       resolve(res.data);
     });
   });
@@ -28,5 +36,6 @@ function updateTaskList(options) {
 export default {
   fetchTaskList,
   createTaskList,
-  updateTaskList
+  updateTask,
+  deleteTask
 };

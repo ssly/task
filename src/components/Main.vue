@@ -1,13 +1,11 @@
 <template>
   <div id="main">
-    <el-table
-      border
-      :data="taskList">
+    <el-table border :data="taskList">
       <el-table-column prop="name" label="名称"></el-table-column>
       <el-table-column label="重要缓急">
         <template slot-scope="scope">
           <el-dropdown trigger="click" placement="bottom"
-            @command="c => handleCommand(scope.row._id, 'important', c)">
+            @command="c => handleCommand(scope.row.id, 'important', c)">
             <span class="el-dropdown-link">
               <el-tag class="pointer" slot="reference"
                 :type="scope.row.important === 'true' ? 'danger' : 'info'">
@@ -21,7 +19,7 @@
           </el-dropdown>
 
           <el-dropdown trigger="click" placement="bottom"
-            @command="c => handleCommand(scope.row._id, 'emergency', c)">
+            @command="c => handleCommand(scope.row.id, 'emergency', c)">
             <span class="el-dropdown-link">
               <el-tag class="pointer" :type="scope.row.emergency === 'true' ? 'danger' : 'success'">
                 {{ scope.row.emergency === 'true' ? '紧急' : '不急' }}
@@ -37,7 +35,7 @@
       <el-table-column prop="type" label="优先级">
         <template slot-scope="scope">
           <el-dropdown trigger="click" placement="bottom"
-            @command="c => handleCommand(scope.row._id, 'priority', c)">
+            @command="c => handleCommand(scope.row.id, 'priority', c)">
             <span class="el-dropdown-link">
               <el-tag class="pointer"
                 :type="scope.row.priority === '1' ? 'danger' : scope.row.priority === '2' ? 'success' : 'info'">
@@ -53,11 +51,15 @@
         </template>
       </el-table-column>
       <el-table-column prop="deadline" label="预计耗时"></el-table-column>
-      <el-table-column>
+      <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button size="mini" type="danger">
-            删除
-          </el-button>
+          <el-popover v-model="scope.row.deleteTipsVisible" placement="top">
+
+            确定要删除吗？
+            <el-button size="mini" @click="deleteTask([scope.row.id])">确定</el-button>
+
+            <el-button slot="reference" size="mini" type="danger">删除</el-button>
+          </el-popover>
         </template>
       </el-table-column>
     </el-table>
@@ -85,7 +87,8 @@ export default {
   methods: {
     ...mapActions([
       'fetchTaskList',
-      'updateTaskList'
+      'updateTask',
+      'deleteTask'
     ]),
 
     toMsgBoard() {
@@ -95,7 +98,7 @@ export default {
     handleCommand(id, type, c) {
       let options = { id, [type]: c };
 
-      this.updateTaskList(options);
+      this.updateTask(options);
     }
   },
 

@@ -1,13 +1,11 @@
 <template>
   <div>
-    <el-col :span="2">
-      <el-button icon="el-icon-refresh" circle @click="fetchTaskList"></el-button>
-    </el-col>
-    <el-col :span="22">
-      <el-input ref="createInput" v-if="creating" v-model="name"
-        @blur="handleBlur" @keydown.enter.native="handleSave"></el-input>
-      <el-button v-if="!creating" icon="el-icon-plus" circle @click="handleCreate"></el-button>
-    </el-col>
+    <el-button icon="el-icon-refresh" circle @click="fetchTaskList"></el-button>
+    <el-input ref="createInput" v-if="creating" v-model="name"
+      @blur="handleBlur" @keydown.enter.native="handleSave"></el-input>
+    <el-button v-if="!creating" icon="el-icon-plus" circle @click="handleCreate"></el-button>
+    <el-button v-if="curPanel === 'Main'" @click="switchPanel('Axis')">坐标面板</el-button>
+    <el-button v-if="curPanel === 'Axis'" @click="switchPanel('Main')">表格面板</el-button>
   </div>
 </template>
 
@@ -19,8 +17,14 @@ export default {
     return {
       name: '',
       creating: false,
-      saving: false
+      saving: false,
     };
+  },
+
+  computed: {
+    curPanel() {
+      return this.$route.name;
+    }
   },
 
   methods: {
@@ -55,7 +59,13 @@ export default {
         this.saving = false;
         this.name = '';
       });
+    },
+
+    switchPanel(toPanel) {
+      console.log(toPanel);
+      console.log(this.$router.push);
+      this.$router.push({ name: toPanel });
     }
-  }
+  },
 }
 </script>

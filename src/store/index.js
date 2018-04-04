@@ -29,11 +29,20 @@ const actions = {
     });
   },
 
-  updateTaskList(context, options) {
+  updateTask(context, options) {
     return new Promise((resolve, reject) => {
-      taskInterface.updateTaskList(options).then(res => {
-        resolve('');
+      taskInterface.updateTask(options).then(res => {
         context.dispatch('fetchTaskList');
+        resolve('');
+      });
+    });
+  },
+
+  deleteTask(context, options) {
+    return new Promise((resolve, reject) => {
+      taskInterface.deleteTask(options).then(res => {
+        context.dispatch('fetchTaskList');
+        resolve('');
       });
     });
   }

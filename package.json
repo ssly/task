@@ -11,13 +11,14 @@
     "test": "npm run unit",
     "lint": "eslint --ext .js,.vue src test/unit",
     "build": "node build/build.js",
-    "serve": "node server/index.js"
+    "serve": "nodemon node server/index.js"
   },
   "dependencies": {
     "koa": "^2.5.0",
     "koa-bodyparser": "^4.2.0",
     "koa-router": "^7.4.0",
     "mongodb": "^3.0.5",
+    "nodemon": "^1.17.3",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1"
   },

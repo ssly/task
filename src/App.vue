@@ -1,8 +1,8 @@
 <template>
-  <div id="app">
+  <div class="app" id="app">
     <h1>{{title}}</h1>
-    <tools></tools>
-    <router-view/>
+    <header><tools></tools></header>
+    <section><router-view/></section>
   </div>
 </template>
 
@@ -21,7 +21,29 @@ export default {
 </script>
 
 <style>
+html {
+  height: 100%;
+}
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
 .pointer {
   cursor: pointer;
+}
+.app {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+header {
+  width: 100%;
+  height: 50px;
+  line-height: 50px;
+}
+section {
+  flex: 1;
 }
 </style>
