@@ -99,6 +99,10 @@ export default {
       let options = { id, [type]: c };
 
       this.updateTask(options);
+    },
+
+    goLogin() {
+      this.$router.push({ name: 'Login' });
     }
   },
 
