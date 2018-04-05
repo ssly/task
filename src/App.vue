@@ -33,17 +33,17 @@ body {
   cursor: pointer;
 }
 .app {
-  display: flex;
-  flex-direction: column;
   width: 100%;
   height: 100%;
 }
 header {
   width: 100%;
   height: 50px;
-  line-height: 50px;
 }
 section {
-  flex: 1;
+  height: 100%;
+}
+.full-height {
+  height: 100%;
 }
 </style>

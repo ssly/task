@@ -25,7 +25,7 @@ function updateTask(options) {
   });
 }
 
-function deleteTask(ids) {
+function deleteTaskList(ids) {
   return new Promise((resolve, reject) => {
     axios.delete(`${HOST}/task/manager`, { data: ids }).then(res => {
       resolve(res.data);
@@ -37,5 +37,5 @@ export default {
   fetchTaskList,
   createTaskList,
   updateTask,
-  deleteTask
+  deleteTaskList
 };

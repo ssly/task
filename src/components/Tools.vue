@@ -1,16 +1,17 @@
 <template>
-  <div>
+  <div class="container">
     <el-button icon="el-icon-refresh" circle @click="fetchTaskList"></el-button>
     <el-input ref="createInput" v-if="creating" v-model="name"
       @blur="handleBlur" @keydown.enter.native="handleSave"></el-input>
     <el-button v-if="!creating" icon="el-icon-plus" circle @click="handleCreate"></el-button>
+    <el-button type="danger" icon="el-icon-delete" circle @click="deleteMany"></el-button>
     <el-button v-if="curPanel === 'Main'" @click="switchPanel('Axis')">坐标面板</el-button>
     <el-button v-if="curPanel === 'Axis'" @click="switchPanel('Main')">表格面板</el-button>
   </div>
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 
 export default {
   data() {
@@ -22,6 +23,8 @@ export default {
   },
 
   computed: {
+    ...mapState(['taskOptions']),
+
     curPanel() {
       return this.$route.name;
     }
@@ -30,13 +33,34 @@ export default {
   methods: {
     ...mapActions([
       'fetchTaskList',
-      'createTaskList'
+      'createTaskList',
+      'deleteTaskList'
     ]),
 
     handleCreate() {
       this.creating = true;
       this.$nextTick(() => {
         this.$refs.createInput.focus();
+      });
+    },
+
+    deleteMany() {
+      let selectIDList = this.taskOptions.selectList.map(item => item.id);
+      let selectLength = selectIDList.length;
+      if (selectLength === 0) {
+        this.$message({
+          type: 'warning',
+          message: '请选择你要操作的项'
+        });
+        return;
+      }
+
+      this.$confirm(`确定要删除选定的 ${selectLength} 项吗?`, '警告', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.deleteTaskList(selectIDList);
       });
     },
 
@@ -62,10 +86,16 @@ export default {
     },
 
     switchPanel(toPanel) {
-      console.log(toPanel);
-      console.log(this.$router.push);
       this.$router.push({ name: toPanel });
     }
   },
 }
 </script>
+
+<style scoped>
+.container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+</style>
