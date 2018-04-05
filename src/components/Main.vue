@@ -1,6 +1,7 @@
 <template>
   <div id="main">
-    <el-table border :data="taskList">
+    <el-table border :data="taskList" @selection-change="val => { setTaskOptions({ selectList: val }) }">
+      <el-table-column type="selection" width="50" align="center"></el-table-column>
       <el-table-column prop="name" label="名称"></el-table-column>
       <el-table-column label="重要缓急">
         <template slot-scope="scope">
@@ -56,7 +57,7 @@
           <el-popover v-model="scope.row.deleteTipsVisible" placement="top">
 
             确定要删除吗？
-            <el-button size="mini" @click="deleteTask([scope.row.id])">确定</el-button>
+            <el-button size="mini" @click="deleteTaskList([scope.row.id])">确定</el-button>
 
             <el-button slot="reference" size="mini" type="danger">删除</el-button>
           </el-popover>
@@ -80,7 +81,8 @@ export default {
 
   data() {
     return {
-      detailModalVisible: false
+      detailModalVisible: false,
+      selectList: [],
     }
   },
 
@@ -88,7 +90,8 @@ export default {
     ...mapActions([
       'fetchTaskList',
       'updateTask',
-      'deleteTask'
+      'deleteTaskList',
+      'setTaskOptions',
     ]),
 
     toMsgBoard() {
@@ -99,6 +102,10 @@ export default {
       let options = { id, [type]: c };
 
       this.updateTask(options);
+    },
+
+    handleSelectrionChange(a, b, c) {
+      console.log(a, b, c);
     }
   },
 
