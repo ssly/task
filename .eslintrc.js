@@ -31,5 +31,7 @@ module.exports = {
     'space-before-function-paren': 'off',
     // comma-dangle
     'comma-dangle': 'off',
+    // no-useless-escape
+    'no-useless-escape': 'off',
   }
 }

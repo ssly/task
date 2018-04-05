@@ -1,7 +1,8 @@
 <template>
   <div class="app" id="app">
-    <h1>{{title}}</h1>
-    <header><tools></tools></header>
+    <header v-if="curRouteName !== 'Signin'">
+      <tools></tools>
+    </header>
     <section><router-view/></section>
   </div>
 </template>
@@ -15,6 +16,12 @@ export default {
   data () {
     return {
       title: '任务管理器'
+    }
+  },
+
+  computed: {
+    curRouteName() {
+      return this.$route.name;
     }
   }
 }

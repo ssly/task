@@ -4,14 +4,16 @@
     <el-input ref="createInput" v-if="creating" v-model="name"
       @blur="handleBlur" @keydown.enter.native="handleSave"></el-input>
     <el-button v-if="!creating" icon="el-icon-plus" circle @click="handleCreate"></el-button>
-    <el-button type="danger" icon="el-icon-delete" circle @click="deleteMany"></el-button>
-    <el-button v-if="curPanel === 'Main'" @click="switchPanel('Axis')">坐标面板</el-button>
-    <el-button v-if="curPanel === 'Axis'" @click="switchPanel('Main')">表格面板</el-button>
+    <el-button v-if="curRouteName === 'Main'" type="danger" icon="el-icon-delete" circle @click="deleteMany"></el-button>
+    <el-button v-if="curRouteName === 'Main'" @click="switchPanel('Axis')">坐标面板</el-button>
+    <el-button v-if="curRouteName === 'Axis'" @click="switchPanel('Main')">表格面板</el-button>
+    <el-button @click="signout">注销</el-button>
   </div>
 </template>
 
 <script>
 import { mapActions, mapState } from 'vuex';
+import event from '../assets/js/event';
 
 export default {
   data() {
@@ -25,7 +27,7 @@ export default {
   computed: {
     ...mapState(['taskOptions']),
 
-    curPanel() {
+    curRouteName() {
       return this.$route.name;
     }
   },
@@ -36,6 +38,10 @@ export default {
       'createTaskList',
       'deleteTaskList'
     ]),
+
+    signout() {
+      event.emit('signout');
+    },
 
     handleCreate() {
       this.creating = true;

@@ -10,7 +10,7 @@ Vue.use(Router);
 export default new Router({
   routes: [
     {
-      path: '/',
+      path: '/main',
       name: 'Main',
       component: Main
     },
@@ -25,7 +25,7 @@ export default new Router({
       component: MsgBoard
     },
     {
-      path: '/Signin',
+      path: '/',
       name: 'Signin',
       component: Signin
     }

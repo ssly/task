@@ -1,10 +1,15 @@
 import axios from '../js/ajax';
+import event from '../js/event';
 const HOST = 'http://127.0.0.1:8678';
 
 function fetchTaskList() {
   return new Promise((resolve, reject) => {
     axios.get(`${HOST}/task/manager`, { options: { x: 1, y: 2 } }).then(res => {
       resolve(res.data);
+    }).catch((err) => {
+      if (err.response.status === 401) {
+        event.emit('signout');
+      }
     });
   });
 }
