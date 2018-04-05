@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+// allow request add Cookie
+axios.defaults.withCredentials = true;
 function getList() {
   // let url = 'https://lius.me/api/task/manager';
 
