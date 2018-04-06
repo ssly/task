@@ -5,11 +5,27 @@ import App from './App';
 import router from './router';
 import store from './store';
 import ElementUI from 'element-ui';
+import event from './assets/js/event';
 import 'element-ui/lib/theme-chalk/index.css';
 
 Vue.config.productionTip = false;
 
 Vue.use(ElementUI, { size: 'small' });
+
+// 注销账号，回到登录页面
+event.on('signout', () => {
+  console.log('signout');
+  router.push({name: 'Signin'});
+  window.localStorage.removeItem('isSignin');
+});
+
+// 判断isSignin是否已经登录
+router.beforeEach((to, from, next) => {
+  let isSignin = window.localStorage.getItem('isSignin');
+  if (to.name === 'Signin' || isSignin === 'true') {
+    next();
+  }
+});
 
 /* eslint-disable no-new */
 new Vue({

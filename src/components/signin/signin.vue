@@ -35,15 +35,13 @@ export default {
     signin() {
       console.log('signin');
       this.postUserInfo();
-      this.username = '';
-      this.password = '';
     },
     postUserInfo() {
       return new Promise((resolve, reject) => {
         axios.post(`${HOST}/user/signin`, {username: this.username, password: this.password}).then(res => {
           resolve(res.data);
           console.log(res);
-          if (res.data !== '') {
+          if (!res.data.success) {
             this.$message.error(res.data);
             return;
           }
@@ -52,8 +50,9 @@ export default {
             message: '登录成功',
             type: 'success'
           });
+          window.localStorage.setItem('isSignin', true);
+          this.$router.push({ name: 'Main' });
         });
-        this.$router.push({ name: 'Main' });
       });
     }
   }
