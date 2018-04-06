@@ -4,7 +4,7 @@
 
     <el-popover
       placement="bottom-end"
-      width="220"
+      width="300"
       @show="handleCreate">
 
       <el-input ref="createInput" v-model="name"

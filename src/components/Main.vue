@@ -2,12 +2,10 @@
   <div id="main">
     <el-table border :data="taskList" @selection-change="val => { setTaskOptions({ selectList: val }) }">
       <el-table-column type="selection" width="50" align="center"></el-table-column>
-      <el-table-column label="名称">
+      <el-table-column label="名称" min-width="300">
         <template slot-scope="scope">
-          <el-popover
-            placement="bottom"
-            width="220"
-            v-model="scope.row.nameTipsVisible">
+          <el-popover placement="bottom" width="300"
+            v-model="scope.row.namePopover">
 
             <el-input :value="scope.row.name"
               @blur="updateName(scope.row, $event.target)"
@@ -17,7 +15,7 @@
           </el-popover>
         </template>
       </el-table-column>
-      <el-table-column label="重要性" width="80" align="center">
+      <el-table-column label="重要性" align="center">
         <template slot-scope="scope">
           <el-dropdown trigger="click" placement="bottom"
             @command="c => handleCommand(scope.row.id, 'important', c)">
@@ -34,7 +32,7 @@
           </el-dropdown>
         </template>
       </el-table-column>
-      <el-table-column label="紧急性" width="80" align="center">
+      <el-table-column label="紧急性" align="center">
         <template slot-scope="scope">
           <el-dropdown trigger="click" placement="bottom"
             @command="c => handleCommand(scope.row.id, 'emergency', c)">
@@ -50,7 +48,7 @@
           </el-dropdown>
         </template>
       </el-table-column>
-      <el-table-column prop="type" label="优先级" width="80" align="center">
+      <el-table-column prop="type" label="优先级" align="center">
         <template slot-scope="scope">
           <el-dropdown trigger="click" placement="bottom"
             @command="c => handleCommand(scope.row.id, 'priority', c)">
@@ -68,18 +66,8 @@
           </el-dropdown>
         </template>
       </el-table-column>
-      <el-table-column prop="deadline" label="预计耗时"></el-table-column>
-      <el-table-column label="操作" width="80">
-        <template slot-scope="scope">
-          <el-popover v-model="scope.row.deleteTipsVisible" placement="top">
+      <el-table-column prop="deadline" label="预计耗时" align="center"></el-table-column>
 
-            确定要删除吗？
-            <el-button size="mini" @click="deleteTaskList([scope.row.id])">确定</el-button>
-
-            <el-button slot="reference" size="mini" type="danger">删除</el-button>
-          </el-popover>
-        </template>
-      </el-table-column>
     </el-table>
 
     <!-- 详情弹窗 -->
@@ -131,7 +119,8 @@ export default {
       let options = { id: item.id, name: elem.value };
       this.updateTask(options);
 
-      item.nameTipsVisible = false;
+      // 关闭当前的名称 popover
+      item.namePopover = false;
     }
   },
 

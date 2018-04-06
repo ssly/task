@@ -3,7 +3,7 @@ import Router from 'vue-router';
 import Main from '@/components/Main';
 import Axis from '@/components/Axis';
 import MsgBoard from '@/components/msgBoard/MsgBoard';
-import Signin from '@/components/signin/signin';
+import Signin from '@/components/signin/Signin';
 
 Vue.use(Router);
 
