@@ -1,10 +1,19 @@
 <template>
   <div class="container">
-    <el-button icon="el-icon-refresh" circle @click="fetchTaskList"></el-button>
-    <el-input ref="createInput" v-if="creating" v-model="name"
-      @blur="handleBlur" @keydown.enter.native="handleSave"></el-input>
-    <el-button v-if="!creating" icon="el-icon-plus" circle @click="handleCreate"></el-button>
-    <el-button v-if="curRouteName === 'Main'" type="danger" icon="el-icon-delete" circle @click="deleteMany"></el-button>
+    <el-button icon="el-icon-refresh" @click="fetchTaskList"></el-button>
+
+    <el-popover
+      placement="bottom-end"
+      width="220"
+      @show="handleCreate">
+
+      <el-input ref="createInput" v-model="name"
+        @blur="handleBlur" @keydown.enter.native="handleSave"></el-input>
+
+      <el-button slot="reference" icon="el-icon-plus"></el-button>
+    </el-popover>
+
+    <el-button :disabled="curRouteName !== 'Main'" type="danger" icon="el-icon-delete" @click="deleteMany"></el-button>
     <el-button v-if="curRouteName === 'Main'" @click="switchPanel('Axis')">坐标面板</el-button>
     <el-button v-if="curRouteName === 'Axis'" @click="switchPanel('Main')">表格面板</el-button>
     <el-button @click="signout">注销</el-button>
@@ -103,5 +112,6 @@ export default {
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  height: 100%;
 }
 </style>

@@ -2,8 +2,22 @@
   <div id="main">
     <el-table border :data="taskList" @selection-change="val => { setTaskOptions({ selectList: val }) }">
       <el-table-column type="selection" width="50" align="center"></el-table-column>
-      <el-table-column prop="name" label="名称"></el-table-column>
-      <el-table-column label="重要缓急">
+      <el-table-column label="名称">
+        <template slot-scope="scope">
+          <el-popover
+            placement="bottom"
+            width="220"
+            v-model="scope.row.nameTipsVisible">
+
+            <el-input :value="scope.row.name"
+              @blur="updateName(scope.row, $event.target)"
+              @keydown.enter.native="updateName(scope.row, $event.target)"></el-input>
+
+            <span slot="reference">{{ scope.row.name }}</span>
+          </el-popover>
+        </template>
+      </el-table-column>
+      <el-table-column label="重要性" width="80" align="center">
         <template slot-scope="scope">
           <el-dropdown trigger="click" placement="bottom"
             @command="c => handleCommand(scope.row.id, 'important', c)">
@@ -18,7 +32,10 @@
               <el-dropdown-item v-if="scope.row.important === 'false'" command="true">重要</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
-
+        </template>
+      </el-table-column>
+      <el-table-column label="紧急性" width="80" align="center">
+        <template slot-scope="scope">
           <el-dropdown trigger="click" placement="bottom"
             @command="c => handleCommand(scope.row.id, 'emergency', c)">
             <span class="el-dropdown-link">
@@ -33,7 +50,7 @@
           </el-dropdown>
         </template>
       </el-table-column>
-      <el-table-column prop="type" label="优先级">
+      <el-table-column prop="type" label="优先级" width="80" align="center">
         <template slot-scope="scope">
           <el-dropdown trigger="click" placement="bottom"
             @command="c => handleCommand(scope.row.id, 'priority', c)">
@@ -52,7 +69,7 @@
         </template>
       </el-table-column>
       <el-table-column prop="deadline" label="预计耗时"></el-table-column>
-      <el-table-column label="操作">
+      <el-table-column label="操作" width="80">
         <template slot-scope="scope">
           <el-popover v-model="scope.row.deleteTipsVisible" placement="top">
 
@@ -100,17 +117,32 @@ export default {
 
     handleCommand(id, type, c) {
       let options = { id, [type]: c };
-
       this.updateTask(options);
     },
 
     goLogin() {
       this.$router.push({ name: 'Login' });
+    },
+
+    updateName(item, elem) {
+      if (!elem.value) {
+        return;
+      }
+      let options = { id: item.id, name: elem.value };
+      this.updateTask(options);
+
+      item.nameTipsVisible = false;
     }
   },
 
   created() {
     this.fetchTaskList();
+  },
+
+  // router 实例
+  beforeRouteLeave(to, from, next) {
+    this.setTaskOptions({ selectList: [] });
+    next();
   }
 }
 </script>

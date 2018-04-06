@@ -92,7 +92,7 @@ export default {
   height: 100%;
 }
 .row {
-  height: 200px;
+  height: 50%;
 }
 .col-container {
   position: relative;
