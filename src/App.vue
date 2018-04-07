@@ -44,11 +44,15 @@ body {
   height: 100%;
 }
 header {
+  position: relative;
+  margin-bottom: -50px;
   width: 100%;
   height: 50px;
 }
 section {
+  box-sizing: border-box;
   height: 100%;
+  padding-top: 50px;
 }
 .full-height {
   height: 100%;

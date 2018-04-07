@@ -6,7 +6,7 @@
           @drop="e => handleDrop(e, { important: row, emergency: col })">
 
             <span class="tag-container"
-              v-if="el.important == row && el.emergency == col"
+              v-if="!el.endTime && el.important == row && el.emergency == col"
               v-for="(el, i) in taskList" :key="i"
               draggable="true"
               @dragstart="e => handleDragStart(e, el)">
