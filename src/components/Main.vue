@@ -2,6 +2,7 @@
   <div id="main">
     <el-table border :data="taskList" @selection-change="val => { setTaskOptions({ selectList: val }) }">
       <el-table-column type="selection" width="50" align="center"></el-table-column>
+
       <el-table-column label="名称" min-width="300">
         <template slot-scope="scope">
           <el-popover placement="bottom" width="300"
@@ -15,6 +16,7 @@
           </el-popover>
         </template>
       </el-table-column>
+
       <el-table-column label="重要性" align="center">
         <template slot-scope="scope">
           <el-dropdown trigger="click" placement="bottom"
@@ -32,6 +34,7 @@
           </el-dropdown>
         </template>
       </el-table-column>
+
       <el-table-column label="紧急性" align="center">
         <template slot-scope="scope">
           <el-dropdown trigger="click" placement="bottom"
@@ -48,6 +51,7 @@
           </el-dropdown>
         </template>
       </el-table-column>
+
       <el-table-column prop="type" label="优先级" align="center">
         <template slot-scope="scope">
           <el-dropdown trigger="click" placement="bottom"
@@ -66,8 +70,31 @@
           </el-dropdown>
         </template>
       </el-table-column>
-      <el-table-column prop="deadline" label="预计耗时" align="center"></el-table-column>
 
+      <el-table-column prop="deadline" label="预计耗时" align="center"></el-table-column>
+      <el-table-column prop="status" label="状态" align="center">
+        <template slot-scope="scope">
+          {{ scope.row.endTime ? '完成' : scope.row.startTime ? '进行中' : '-' }}
+        </template>
+      </el-table-column>
+
+      <el-table-column label="操作" align="center" width="160">
+        <template slot-scope="scope">
+          <el-popover placement="bottom"
+            v-model="scope.row.statusPopover">
+
+            <el-button :disabled="!!scope.row.startTime"
+              size="mini" @click="handleStatus(scope.row, '1')">开始</el-button>
+            <el-button :disabled="!scope.row.startTime || !!scope.row.endTime"
+              size="mini" @click="handleStatus(scope.row, '2')">结束</el-button>
+            <el-button size="mini" @click="handleStatus(scope.row, '0')">恢复</el-button>
+
+            <el-button size="mini" slot="reference">状态</el-button>
+          </el-popover>
+
+          <el-button size="mini">详情</el-button>
+        </template>
+      </el-table-column>
     </el-table>
 
     <!-- 详情弹窗 -->
@@ -95,6 +122,7 @@ export default {
     ...mapActions([
       'fetchTaskList',
       'updateTask',
+      'updateTaskStatus',
       'deleteTaskList',
       'setTaskOptions',
     ]),
@@ -121,6 +149,12 @@ export default {
 
       // 关闭当前的名称 popover
       item.namePopover = false;
+    },
+
+    handleStatus(item, status) {
+      let id = item.id;
+      this.updateTaskStatus({ id, status });
+      item.statusPopover = false;
     }
   },
 

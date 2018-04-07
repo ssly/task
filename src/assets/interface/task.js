@@ -30,6 +30,14 @@ function updateTask(options) {
   });
 }
 
+function updateTaskStatus(options) {
+  return new Promise((resolve, reject) => {
+    axios.put(`${HOST}/task/manager/status`, options).then(res => {
+      resolve(res.data);
+    });
+  });
+}
+
 function deleteTaskList(ids) {
   return new Promise((resolve, reject) => {
     axios.delete(`${HOST}/task/manager`, { data: ids }).then(res => {
@@ -42,5 +50,6 @@ export default {
   fetchTaskList,
   createTaskList,
   updateTask,
+  updateTaskStatus,
   deleteTaskList
 };

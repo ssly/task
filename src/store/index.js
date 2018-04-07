@@ -51,6 +51,15 @@ const actions = {
     });
   },
 
+  updateTaskStatus(context, options) {
+    return new Promise((resolve, reject) => {
+      taskInterface.updateTaskStatus(options).then(res => {
+        context.dispatch('fetchTaskList');
+        resolve('');
+      });
+    });
+  },
+
   deleteTaskList(context, options) {
     return new Promise((resolve, reject) => {
       taskInterface.deleteTaskList(options).then(res => {

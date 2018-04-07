@@ -5,6 +5,7 @@
     <el-popover
       placement="bottom-end"
       width="300"
+      v-model="creating"
       @show="handleCreate">
 
       <el-input ref="createInput" v-model="name"
@@ -13,7 +14,8 @@
       <el-button slot="reference" icon="el-icon-plus"></el-button>
     </el-popover>
 
-    <el-button :disabled="curRouteName !== 'Main'" type="danger" icon="el-icon-delete" @click="deleteMany"></el-button>
+    <el-button type="danger" icon="el-icon-delete" @click="deleteMany"
+      :disabled="taskOptions.selectList.length === 0 ||curRouteName !== 'Main'"></el-button>
     <el-button v-if="curRouteName === 'Main'" @click="switchPanel('Axis')">坐标面板</el-button>
     <el-button v-if="curRouteName === 'Axis'" @click="switchPanel('Main')">表格面板</el-button>
     <el-button @click="signout">注销</el-button>
